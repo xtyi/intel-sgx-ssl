@@ -225,7 +225,7 @@ int x9_62_test_internal(BIO *out, int nid, const char *r_in, const char *s_in)
         goto x962_int_err;
     if (!BN_dec2bn(&r, r_in) || !BN_dec2bn(&s, s_in))
         goto x962_int_err;
-    ECDSA_SIG_get0(signature, &sig_r, &sig_s);
+    ECDSA_SIG_get0(signature, &sig_r, &sig_s, NULL);
     if (BN_cmp(sig_r, r) || BN_cmp(sig_s, s))
         goto x962_int_err;
     BIO_printf(out, ".");
@@ -435,7 +435,7 @@ int test_builtin(BIO *out)
             goto builtin_err;
         }
 
-        ECDSA_SIG_get0(ecdsa_sig, &sig_r, &sig_s);
+        ECDSA_SIG_get0(ecdsa_sig, &sig_r, &sig_s, NULL);
 
         /* Store the two BIGNUMs in raw_buf. */
         r_len = BN_num_bytes(sig_r);
@@ -472,7 +472,7 @@ int test_builtin(BIO *out)
             BIO_printf(out, " failed\n");
             goto builtin_err;
         }
-        
+
         /*
          * Sanity check: undo the modification and verify signature.
          */
